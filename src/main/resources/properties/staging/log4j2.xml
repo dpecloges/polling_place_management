@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="30">
+    <Properties>
+        <Property name="log-path">logs/cr</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="console-log" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />-->
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n" />
+        </Console>
+
+        <RollingRandomAccessFile name="trace-log" append="false"
+                                 fileName="${log-path}/trace.log" filePattern="${log-path}/$${date:yyyy-MM}/trace-%d{yyyy-MM-dd-HH}-%i.log.zip">
+			
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="debug" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+			
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+		
+        <RollingRandomAccessFile name="info-log" append="false"
+                                 fileName="${log-path}/info.log" filePattern="${log-path}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd-HH}-%i.log.zip">
+			
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+			
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="error-log" append="false"
+                                 fileName="${log-path}/error.log" filePattern="${log-path}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd-HH}-%i.log.zip">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+        <!--<NoSql name="error-log-db">-->
+            <!--<MongoDb databaseName="cr-log-db" collectionName="cr-log"-->
+                     <!--factoryClassName="com.ots.dpel.global.utils.DpLogUtils"-->
+                     <!--factoryMethodName="getLogMongoDatabaseClient" />-->
+        <!--</NoSql>-->
+
+    </Appenders>
+    
+    <Loggers>
+
+        <AsyncLogger name="org.hibernate" level="INFO">
+            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="error-log-db" />-->
+        </AsyncLogger>
+
+        <AsyncLogger name="com.google.code.ssm" level="ERROR">
+            <AppenderRef ref="console-log"/>
+        </AsyncLogger>
+
+        <AsyncLogger name="org.springframework.ws.server.MessageTracing" level="TRACE">
+            <AppenderRef ref="console-log"/>
+        </AsyncLogger>
+
+        <AsyncLogger name="com.ots.dpel.global.handlers.GlobalExceptionHandler" level="INFO">
+            <AppenderRef ref="console-log"/>
+            <!--<AppenderRef ref="error-log-db"/>-->
+        </AsyncLogger>
+
+        <!--<AsyncLogger name="org.hibernate.stat" level="TRACE">-->
+            <!--<AppenderRef ref="console-log"/>-->
+            <!--<AppenderRef ref="error-log-db" />-->
+        <!--</AsyncLogger>-->
+
+        <AsyncRoot level="info">
+            <AppenderRef level="TRACE" ref="trace-log" /> 
+            <AppenderRef level="ERROR" ref="error-log" /> 
+            <AppenderRef level="DEBUG" ref="console-log" />
+            <AppenderRef level="INFO" ref="info-log" />
+            <!--<AppenderRef level="ERROR" ref="error-log-db" />-->
+        </AsyncRoot>
+
+    </Loggers>
+</Configuration>

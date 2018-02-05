@@ -1,0 +1,43 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<dataConfig>
+  <dataSource driver="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://35.189.233.234/dp?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
+              user="dp" password="0t$db@OTS"/>
+  <document>
+    <entity name="elector" query="select * from elector">
+      <field column="Id" name="id" />
+      <field column="Eid_ekl_ar" name="eklSpecialNo" />
+      <field column="Eponymo" name="lastNamePlain" />
+      <field column="Eponymo" name="lastName" />
+      <field column="Onoma" name="firstName" />
+      <field column="On_pat" name="fatherFirstName" />
+      <field column="On_mht" name="motherFirstName" />
+      <field column="Etos_gen" name="birthYear" />
+      <field column="Mhn_gen" name="birthMonth" />
+      <field column="Mer_gen" name="birthDay" />
+      <field column="Per_dhm_enot" name="municipalUnitDescription" />
+      <field column="Per_ekl_diam" name="electionDepartmentDescription" />
+      <field column="Dhmot" name="municipalRecordNo" />
+      <field column="Odos_tax_dieyt" name="address" />
+      <field column="Ar_tax_dieyt" name="addressNo" />
+      <field column="Tax_kod" name="postalCode" />
+      <field column="Poly_periox" name="city" />
+    </entity>
+  </document>
+</dataConfig>
